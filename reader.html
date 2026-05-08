@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Book Reader</title>
+    <style>
+        :root {
+            /* Light Theme Variables */
+            --bg-color: #fdfaf6;
+            --text-color: #333333;
+            --ui-bg: #ffffff;
+            --ui-border: #e0dcd5;
+            --btn-hover: #f0ebe1;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme Variables */
+            --bg-color: #1a1a1a;
+            --text-color: #d4d4d4;
+            --ui-bg: #2d2d2d;
+            --ui-border: #404040;
+            --btn-hover: #3d3d3d;
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .reader-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            background-color: var(--bg-color);
+        }
+
+        /* Toolbar */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: var(--ui-bg);
+            border-bottom: 1px solid var(--ui-border);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: sticky;
+            top: 0;
+        }
+
+        .book-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .controls button {
+            background: transparent;
+            border: 1px solid var(--ui-border);
+            color: var(--text-color);
+            padding: 6px 12px;
+            margin-left: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .controls button:hover {
+            background-color: var(--btn-hover);
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            padding: 40px 10%;
+            font-size: 18px; /* Default font size */
+            line-height: 1.6;
+            overflow-y: auto;
+        }
+
+        .chapter {
+            display: none; /* Hidden by default */
+        }
+
+        .chapter.active {
+            display: block; /* Show active chapter */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .chapter h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: normal;
+        }
+
+        .chapter p {
+            text-align: justify;
+            margin-bottom: 20px;
+            text-indent: 2em;
+        }
+
+        /* Navigation Footer */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: var(--ui-bg);
+            border-top: 1px solid var(--ui-border);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .nav-btn {
+            background-color: transparent;
+            border: 1px solid var(--ui-border);
+            color: var(--text-color);
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background-color: var(--btn-hover);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .progress {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .content-area {
+                padding: 20px 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="reader-container">
+        <div class="toolbar">
+            <h2 class="book-title">The Sample Book</h2>
+            <div class="controls">
+                <button onclick="changeFontSize(-2)">A-</button>
+                <button onclick="changeFontSize(2)">A+</button>
+                <button onclick="toggleTheme()">🌓 Theme</button>
+            </div>
+        </div>
+
+        <div class="content-area" id="contentArea">
+            <div class="chapter active">
+                <h1>Chapter One: The Beginning</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor.</p>
+            </div>
+
+            <div class="chapter">
+                <h1>Chapter Two: The Journey</h1>
+                <p>Ut id nisl quis enim dignissim sagittis. Pellentesque egestas, neque sit amet convallis pulvinar, justo nulla eleifend augue, ac auctor orci leo non est. Quisque id mi.</p>
+                <p>Pellentesque commodo eros a enim. Vestibulum turpis sem, aliquet eget, lobortis pellentesque, rutrum eu, nisl. Sed libero. Aliquam erat volutpat. Etiam vitae tortor.</p>
+                <p>Morbi nec metus. Phasellus blandit leo ut odio. Maecenas ullamcorper, dui et placerat feugiat, eros pede varius nisi, condimentum viverra felis nunc et lorem. Sed magna purus, fermentum eu, tincidunt eu, varius ut, felis.</p>
+            </div>
+
+            <div class="chapter">
+                <h1>Chapter Three: The Conclusion</h1>
+                <p>In hac habitasse platea dictumst. Fusce a quam. Etiam ut purus mattis mauris sodales aliquam. Curabitur nisi. Quisque malesuada placerat nisl.</p>
+                <p>Nam ipsum risus, rutrum vitae, vestibulum id, eleifend non, quam. Suspendisse pulvinar, augue ac venenatis condimentum, sem libero volutpat nibh, nec pellentesque velit pede quis nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Fusce id purus.</p>
+                <p>Ut varius tincidunt libero. Phasellus dolor. Maecenas vestibulum mollis diam. Pellentesque ut neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn" onclick="navigate(-1)" disabled>← Previous</button>
+            <span class="progress" id="progressText">Chapter 1 of 3</span>
+            <button class="nav-btn" id="nextBtn" onclick="navigate(1)">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentChapter = 0;
+        let currentFontSize = 18;
+        const chapters = document.querySelectorAll('.chapter');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressText = document.getElementById('progressText');
+        const contentArea = document.getElementById('contentArea');
+
+        // Function to handle chapter navigation
+        function navigate(direction) {
+            // Hide current chapter
+            chapters[currentChapter].classList.remove('active');
+            
+            // Update index
+            currentChapter += direction;
+            
+            // Show new chapter
+            chapters[currentChapter].classList.add('active');
+            
+            // Scroll to top
+            contentArea.scrollTop = 0;
+            
+            updateNavigation();
+        }
+
+        // Function to update buttons and progress text
+        function updateNavigation() {
+            prevBtn.disabled = currentChapter === 0;
+            nextBtn.disabled = currentChapter === chapters.length - 1;
+            progressText.innerText = `Chapter ${currentChapter + 1} of ${chapters.length}`;
+        }
+
+        // Function to change font size
+        function changeFontSize(change) {
+            currentFontSize += change;
+            // Set limits
+            if (currentFontSize < 12) currentFontSize = 12;
+            if (currentFontSize > 32) currentFontSize = 32;
+            
+            contentArea.style.fontSize = currentFontSize + 'px';
+        }
+
+        // Function to toggle Dark/Light mode
+        function toggleTheme() {
+            const body = document.body;
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+            }
+        }
+
+        // Initialize reader
+        updateNavigation();
+    </script>
+</body>
+</html>

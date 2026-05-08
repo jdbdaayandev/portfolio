@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio | Computer Programmer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-color: #00ff88; /* Hacker Green */
+            --bg-dark: #070a0f; /* Deep dark background */
+            --bg-card: rgba(22, 27, 34, 0.75); /* Translucent IDE panel */
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --border-color: rgba(48, 54, 61, 0.8);
+            --transition: all 0.3s ease;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            /* Subtle grid overlay to pair with the canvas */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 30px 30px;
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Tech Canvas Background */
+        #techCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.4; /* Keeps the nodes subtle so text is readable */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Header & Nav */
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(7, 10, 15, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+            text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-main);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 70px;
+            position: relative;
+        }
+
+        .hero-content p:first-child {
+            font-family: 'Fira Code', monospace;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .hero-content span {
+            font-family: 'Fira Code', monospace;
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            display: block;
+            margin-top: 10px;
+            text-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+        }
+
+        /* Blinking Cursor Animation */
+        .cursor {
+            display: inline-block;
+            width: 15px;
+            height: 35px;
+            background-color: var(--primary-color);
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+            margin-left: 5px;
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .hero-content p.desc {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 40px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: rgba(0, 255, 136, 0.05);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: rgba(0, 255, 136, 0.15);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Sections General */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 50px;
+            display: flex;
+            align-items: center;
+            color: #ffffff;
+        }
+
+        .section-title::before {
+            content: '/* ';
+            color: var(--primary-color);
+            font-family: 'Fira Code', monospace;
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .section-title::after {
+            content: ' */';
+            color: var(--primary-color);
+            font-family: 'Fira Code', monospace;
+            margin-left: 10px;
+            font-size: 1.5rem;
+        }
+
+        .section-title-line {
+            height: 1px;
+            background: var(--border-color);
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+
+        /* About Section */
+        .about-content {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .skill-tag {
+            font-family: 'Fira Code', monospace;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        
+        .skill-tag:hover {
+            border-color: var(--primary-color);
+            background: rgba(0, 255, 136, 0.1);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+        }
+
+        /* Experience Section (Timeline) */
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .timeline-item {
+            padding: 30px;
+            border-left: 2px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-color: #ffffff; 
+        }
+
+        .timeline-item h3 {
+            color: #ffffff;
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .timeline-item h4 {
+            color: var(--primary-color);
+            font-family: 'Fira Code', monospace;
+            font-weight: 400;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .timeline-item p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            border-color: var(--primary-color);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 200px;
+            background: rgba(0, 0, 0, 0.4); 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .project-info {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-info h3 {
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-size: 1.25rem;
+        }
+
+        .project-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .project-tech span {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .project-links a {
+            margin-right: 18px;
+            font-size: 1.3rem;
+            color: #ffffff;
+            transition: var(--transition);
+        }
+
+        .project-links a:hover {
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        /* Contact Section */
+        .contact-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .contact-content p {
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            font-family: 'Fira Code', monospace;
+            width: 100%;
+            padding: 18px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-main);
+            outline: none;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.1);
+        }
+
+        .contact-form textarea {
+            height: 180px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            background: rgba(7, 10, 15, 0.95);
+            border-top: 1px solid var(--border-color);
+            margin-top: 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-links {
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            margin: 0 15px;
+            font-size: 1.4rem;
+            transition: var(--transition);
+            color: var(--text-muted);
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(7, 10, 15, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: var(--transition);
+                border-left: 1px solid var(--border-color);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content span {
+                font-size: 1.5rem;
+            }
+
+            .about-content {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            .contact-content {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="techCanvas"></canvas>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">&lt;Jdbdaayan /&gt;</div>
+                <ul class="nav-links">
+                    <li><a href="#home">01. Home</a></li>
+                    <li><a href="#about">02. About</a></li>
+                    <li><a href="#experience">03. Experience</a></li>
+                    <li><a href="#projects">04. Projects</a></li>
+                    <li><a href="#contact">05. Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <p>print("Hello, World! I am")</p>
+                <h1>June Delrey B. Da-ayan.</h1>
+                <span>Computer Programmer III<span class="cursor"></span></span>
+                <p class="desc">I build robust digital solutions and web applications. With a unique background spanning administrative operations and technical development, I write clean code that solves real-world workflow problems.</p>
+                <a href="#projects" class="btn">view_projects()</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <div class="section-title">About Me<div class="section-title-line"></div></div>
+            <div class="about-content glass-panel">
+                <div class="about-text">
+                    <p>My journey into software development is a bit unique. I started my career in administrative roles, working my way up from an Administrative Aide IV to an Administrative Assistant II. In these positions, I developed strong problem-solving skills, an eye for efficiency, and a deep understanding of organizational workflows.</p>
+                    <p>My passion for optimizing processes naturally led me into the world of programming. I transitioned those analytical skills into writing clean, efficient code. Today, as a Computer Programmer III, I leverage both my technical expertise and my administrative background to build software that truly solves problems for end-users.</p>
+                    
+                    <div class="skills">
+                        <span class="skill-tag">HTML & CSS</span>
+                        <span class="skill-tag">JavaScript (ES6+)</span>
+                        <span class="skill-tag">SQL / Databases</span>
+                        <span class="skill-tag">PHP / Node.js</span>
+                        <span class="skill-tag">Git / GitHub / GitLab</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <div class="container">
+            <div class="section-title">Experience<div class="section-title-line"></div></div>
+            <div class="timeline">
+                
+                <div class="timeline-item glass-panel">
+                    <h3>Computer Programmer III</h3>
+                    <h4>Your Current Organization Name | Present</h4>
+                    <p>Currently responsible for developing, maintaining, and optimizing software applications. I translate user requirements into functional code, manage databases, and troubleshoot system issues to ensure smooth operations.</p>
+                </div>
+
+                <div class="timeline-item glass-panel">
+                    <h3>Administrative Assistant II</h3>
+                    <h4>Previous Organization Name | Year - Year</h4>
+                    <p>Managed complex administrative workflows, coordinated inter-departmental communications, and assisted in optimizing office procedures. This role heavily honed my attention to detail and organizational management.</p>
+                </div>
+
+                <div class="timeline-item glass-panel">
+                    <h3>Administrative Aide IV</h3>
+                    <h4>Previous Organization Name | Year - Year</h4>
+                    <p>Supported daily office operations, maintained accurate records, and handled document processing. This foundational role taught me the importance of data accuracy and efficient workflow management.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <div class="section-title">Projects<div class="section-title-line"></div></div>
+            <div class="projects-grid">
+                
+                <div class="project-card glass-panel">
+                    <div class="project-img">
+                        <span><i class="fas fa-database fa-3x"></i></span>
+                    </div>
+                    <div class="project-info">
+                        <h3>Internal Management System</h3>
+                        <p>A web-based portal built to digitize administrative workflows, making document tracking and approval processes significantly faster.</p>
+                        <div class="project-tech">
+                            <span>JavaScript</span>
+                            <span>SQL</span>
+                            <span>PHP</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" title="GitHub Repo"><i class="fab fa-github"></i></a>
+                            <a href="#" title="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card glass-panel">
+                    <div class="project-img">
+                        <span><i class="fas fa-code fa-3x"></i></span>
+                    </div>
+                    <div class="project-info">
+                        <h3>Web Book Reader</h3>
+                        <p>A responsive, browser-based book reader application with dark mode, customizable font sizes, and chapter navigation features.</p>
+                        <div class="project-tech">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" title="GitHub Repo"><i class="fab fa-github"></i></a>
+                            <a href="#" title="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <div class="section-title">Get_In_Touch()<div class="section-title-line"></div></div>
+            <div class="contact-content glass-panel">
+                <p>I am always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Feel free to reach out!</p>
+                <form class="contact-form" action="#" method="POST">
+                    <input type="text" placeholder="const name = " required>
+                    <input type="email" placeholder="const email = " required>
+                    <textarea placeholder="let message = " required></textarea>
+                    <button type="submit" class="btn">send_message()</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p style="font-family: 'Fira Code', monospace; color: var(--text-muted); font-size: 0.85rem;">Built by June Delrey B. Da-ayan &copy; 2026</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Mobile Menu Logic ---
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const links = document.querySelectorAll('.nav-links li');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if(navLinks.classList.contains('active')){
+                hamburger.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // --- Tech Canvas Particle Network Logic ---
+        const canvas = document.getElementById('techCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size to window size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray;
+
+        // Particle constructor
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+                this.color = color;
+            }
+            
+            // Draw particle on canvas
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = '#00ff88'; // Hacker green particles
+                ctx.fill();
+            }
+            
+            // Check particle position and calculate movement
+            update() {
+                // Bounce off edges
+                if (this.x > canvas.width || this.x < 0) {
+                    this.directionX = -this.directionX;
+                }
+                if (this.y > canvas.height || this.y < 0) {
+                    this.directionY = -this.directionY;
+                }
+                
+                // Move particle
+                this.x += this.directionX;
+                this.y += this.directionY;
+                
+                this.draw();
+            }
+        }
+
+        // Initialize particle array
+        function init() {
+            particlesArray = [];
+            
+            // Amount of particles based on screen size
+            let numberOfParticles = (canvas.height * canvas.width) / 10000;
+            
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 1; // Particle size 1-3
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 1) - 0.5; // Speed
+                let directionY = (Math.random() * 1) - 0.5;
+                let color = '#00ff88';
+
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
+
+        // Check if particles are close enough to draw a connecting line
+        function connect() {
+            let opacityValue = 1;
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
+                                 + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    
+                    // The distance threshold for drawing a line
+                    if (distance < (canvas.width / 10) * (canvas.height / 10)) {
+                        opacityValue = 1 - (distance / 20000);
+                        ctx.strokeStyle = 'rgba(0, 255, 136,' + opacityValue + ')';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+            connect();
+        }
+
+        // Resize canvas on window resize
+        window.addEventListener('resize', function() {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            init();
+        });
+
+        // Run functions
+        init();
+        animate();
+    </script>
+</body>
+</html>
