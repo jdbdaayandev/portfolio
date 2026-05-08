@@ -206,6 +206,12 @@
             transform: translateY(-2px);
         }
 
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
         /* Sections General */
         section {
             padding: 100px 0;
@@ -527,7 +533,7 @@
                     <li><a href="#about">02. About</a></li>
                     <li><a href="#experience">03. Experience</a></li>
                     <li><a href="#projects">04. Projects</a></li>
-                    <li><a href="#contact">05. Contact</a></li>
+                    <li><a href="#contact">05. Contact</a></li><li><a href="resume.html" style="color: var(--primary-color);">06. CV</a></li>
                 </ul>
                 <div class="hamburger">
                     <i class="fas fa-bars"></i>
@@ -543,7 +549,10 @@
                 <h1>June Delrey B. Da-ayan.</h1>
                 <span>Computer Programmer III<span class="cursor"></span></span>
                 <p class="desc">I build robust digital solutions and web applications. With a unique background spanning administrative operations and technical development, I write clean code that solves real-world workflow problems.</p>
-                <a href="#projects" class="btn">view_projects()</a>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn">view_projects()</a>
+                    <a href="resume.html" class="btn" style="background: rgba(0, 255, 136, 0.15);">open_cv()</a>
+                </div>
             </div>
         </div>
     </section>
